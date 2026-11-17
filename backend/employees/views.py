@@ -5,7 +5,7 @@ from .models import Employee
 
 
 def to_dict(e):
-    """Turn an Employee row into a plain dictionary so it can become JSON."""
+    
     return {
         "id": e.id,
         "name": e.name,
@@ -16,7 +16,7 @@ def to_dict(e):
 
 
 def read_fields(request):
-    """Read name/email/role from the JSON body. Returns None if any is missing."""
+    
     data = json.loads(request.body or "{}")
     name = str(data.get("name", "")).strip()
     email = str(data.get("email", "")).strip()
@@ -28,11 +28,11 @@ def read_fields(request):
 
 @csrf_exempt
 def employee_list(request):
-    if request.method == "GET":                      # GET /employees
+    if request.method == "GET":                      
         employees = Employee.objects.order_by("id")
         return JsonResponse([to_dict(e) for e in employees], safe=False)
 
-    if request.method == "POST":                     # POST /employees
+    if request.method == "POST":                     
         fields = read_fields(request)
         if fields is None:
             return JsonResponse({"error": "name, email and role are required"}, status=400)
@@ -49,7 +49,7 @@ def employee_detail(request, id):
     except Employee.DoesNotExist:
         return JsonResponse({"error": "not found"}, status=404)
 
-    if request.method == "PUT":                      # PUT /employees/{id}
+    if request.method == "PUT":                      
         fields = read_fields(request)
         if fields is None:
             return JsonResponse({"error": "name, email and role are required"}, status=400)
@@ -57,7 +57,7 @@ def employee_detail(request, id):
         e.save()
         return JsonResponse(to_dict(e))
 
-    if request.method == "DELETE":                   # DELETE /employees/{id}
+    if request.method == "DELETE":                   
         e.delete()
         return JsonResponse({"deleted": id})
 

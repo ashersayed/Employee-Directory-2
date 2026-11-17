@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-// The shape of one employee (matches what the backend sends)
 interface Employee {
   id: number;
   name: string;
@@ -18,25 +17,21 @@ export default function App() {
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null); // null = adding
 
-  // GET all employees from the backend
   const load = async () => {
     const res = await axios.get<Employee[]>(API);
     setEmployees(res.data);
   };
 
-  // Run load() once when the page first opens
   useEffect(() => {
     load();
   }, []);
 
-  // Keep the form state in sync with what the user types
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Form submitted: PUT if editing, POST if adding
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // stop the browser reloading the page
+    e.preventDefault(); 
     if (editingId === null) {
       await axios.post(API, form);
     } else {
@@ -44,16 +39,15 @@ export default function App() {
     }
     setForm(emptyForm);
     setEditingId(null);
-    load(); // refresh the table
+    load(); 
   };
 
-  // Edit button: copy that employee into the form
   const startEdit = (emp: Employee) => {
     setEditingId(emp.id);
     setForm({ name: emp.name, email: emp.email, role: emp.role });
   };
 
-  // Delete button
+  // delete button
   const remove = async (id: number) => {
     if (!confirm("Delete this employee?")) return;
     await axios.delete(`${API}/${id}`);
