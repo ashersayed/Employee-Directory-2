@@ -41,7 +41,7 @@ def employee_list(request):
 
     return JsonResponse({"error": "method not allowed"}, status=405)
 
-
+#
 @csrf_exempt
 def employee_detail(request, id):
     try:

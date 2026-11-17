@@ -15,7 +15,7 @@ const emptyForm = { name: "", email: "", role: "" };
 export default function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [form, setForm] = useState(emptyForm);
-  const [editingId, setEditingId] = useState<number | null>(null); // null = adding
+  const [editingId, setEditingId] = useState<number | null>(null); // null  =  adding
 
   const load = async () => {
     const res = await axios.get<Employee[]>(API);
