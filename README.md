@@ -28,6 +28,8 @@ mysql -u root -p -e "CREATE DATABASE employee_directory"
 
 Open `backend/config/settings.py` and set your MySQL password in `DATABASES`.
 
+In a terminal:
+
 ```bash
 cd backend
 pip install -r requirements.txt
